@@ -31,15 +31,17 @@ def insertData():
         mydb.commit()
 
         print(mycursor.rowcount, "record inserted.")
+        return "message"
     except mysql.connector.Error as error :
         print("Failed to update record to database: {}".format(error))
         mydb.rollback()
+        return "message failed"
+
     finally:
         #closing database connection.
         if(mydb.is_connected()):
             mydb.close()
             print("MySQL connection is closed")
-    return "message"
     
 @app.route('/get_time')
 def get_time():
