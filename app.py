@@ -25,17 +25,17 @@ def insertData():
 
         sql = "insert into test (name) values (%s)"
 
-        val = (data)
+        val = (data,)
         mycursor.execute(sql, val)
 
         mydb.commit()
 
         print(mycursor.rowcount, "record inserted.")
-        return "message"
+        return "message success"
     except mysql.connector.Error as error :
         print("Failed to update record to database: {}".format(error))
         mydb.rollback()
-        return "message failed"
+        return "message failed".format(error)
 
     finally:
         #closing database connection.
