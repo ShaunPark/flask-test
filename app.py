@@ -1,4 +1,5 @@
 import instana
+import mysql.connector
 
 from datetime import datetime
 from flask import Flask, request
@@ -7,7 +8,39 @@ from flask_json import FlaskJSON, JsonError, json_response, as_json
 app = Flask(__name__)
 FlaskJSON(app)
 
+@app.route('/insert')
+def insertData():
+    data = request.args.get('data')
+    print(data)
+    
+    mydb = mysql.connector.connect(
+        host="54.180.25.66",
+        user="shpark",
+        passwd="shpark",
+        database="sctest",
+        use_pure=True
+    )
+    try:
+        mycursor = mydb.cursor(prepared=True)
 
+        sql = "insert into test (name) values (%s)"
+
+        val = (data)
+        mycursor.execute(sql, val)
+
+        mydb.commit()
+
+        print(mycursor.rowcount, "record inserted.")
+    except mysql.connector.Error as error :
+        print("Failed to update record to database: {}".format(error))
+        mydb.rollback()
+    finally:
+        #closing database connection.
+        if(mydb.is_connected()):
+            mydb.close()
+            print("MySQL connection is closed")
+    return "message"
+    
 @app.route('/get_time')
 def get_time():
     now = datetime.utcnow()
