@@ -14,7 +14,7 @@ def insertData():
     print(data)
     
     mydb = mysql.connector.connect(
-        host="54.180.25.66",
+        host="172.31.25.154",
         user="shpark",
         passwd="shpark",
         database="sctest",
