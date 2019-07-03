@@ -6,6 +6,6 @@ RUN apt-get install -y python-pip python-dev build-essential
 COPY . /app
 WORKDIR /app
 RUN pip install -r requirements.txt
-EXPOSE 5000:5000/tcp
 ENTRYPOINT ["python"]
+EXPOSE 5000:5000/tcp
 CMD ["app.py"]
